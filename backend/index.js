@@ -32,7 +32,6 @@ rooms_less_than_two_people = [];
 
 user_to_color = {};
 
-user_side = {};
 
 socketIO.on("connection", (socket) => {
   console.log("connected!!");
@@ -47,7 +46,6 @@ socketIO.on("connection", (socket) => {
       user: socket.id,
       msg: msg,
       color: user_to_color[socket.id],
-      side: user_side[socket.id],
     });
 
     // update frontend
@@ -55,14 +53,12 @@ socketIO.on("connection", (socket) => {
   });
   socket.on("createRoom", () => {
     if (rooms_less_than_two_people.length > 0) {
-      user_side[socket.id] = "right";
       roomid = rooms_less_than_two_people.shift();
       user_to_room[socket.id] = roomid;
       socket.emit("roomid", user_to_room[socket.id]);
       console.log("emit roomcreated");
       socketIO.emit("roomCreated", user_to_room[socket.id]);
     } else {
-      user_side[socket.id] = "left";
       roomid = generateID();
       rooms_less_than_two_people.push(roomid);
       user_to_room[socket.id] = roomid;

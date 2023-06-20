@@ -17,7 +17,7 @@ const ChatComponent = ({ msg }) => {
   console.log("msg", msg);
   return (
     <View>
-      {msg.side === "left" ? (
+      {msg.user != socket.id ? (
         <View style={styles.chatComponentRight}>
           <View style={styles.iconContainer}>
             <FontAwesomeIcon icon={faUser} color={msg.color} fontSize={"lg"} />
